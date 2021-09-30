@@ -1,9 +1,3 @@
 #!/bin/bash
 read A B C
-if [[ $A -ge $B && $A -ge $C ]]
-	then echo $A
-	else if [[ $B -ge $A && $B -ge $C ]]
-		then echo $B
-		else echo $C
-	fi
-fi
+echo "$A $B $C" | tr ' ' "\n" | sort -rn | head -n 1
