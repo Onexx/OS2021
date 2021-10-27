@@ -8,8 +8,8 @@ do
 	fi
 done
 
-#sleep 1m
-sleep 5s
+sleep 1m
+#sleep 5s
 
 while read line
 do

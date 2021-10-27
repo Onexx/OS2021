@@ -1,17 +1,14 @@
 #!/bin/bash
 
 > tmp
-for i in $(ps -A -o pid --no-header)
+for i in $(ps -A -o pid --no-header --sort=ppid)
 do
-	fstat=/proc/$i/status
-	if [[ -f $fstat ]]
-	then
-		ppid=$(grep PPid $fstat | awk '{ print $2 }')
-		ser=$(grep "sum_exec_runtime" "/proc/$i/sched" | awk '{ print $3 }')
-		ns=$(grep "nr_switches" "/proc/$i/sched" | awk '{ print $3 }')
-		art=$(echo $ser  $ns | awk '{ print $1/$2 }')
-		echo "ProcessID= $i : Parent_ProcessID= $ppid : Average_Running_Time= $art" >> tmp
-	fi
+	ppid=$( grep -s PPid "/proc/$i/status" | awk '{ print $2 }')
+	ser=$(grep -s "sum_exec_runtime" "/proc/$i/sched" | awk '{ print $3 }')
+	ns=$(grep -s "nr_switches" "/proc/$i/sched" | awk '{ print $3 }')
+	( [ -z $ppid ] || [ -z $ser ] || [ -z $ns ] ) && continue
+	art=$(echo $ser  $ns | awk '{ print $1/$2 }')
+	echo "ProcessID= $i : Parent_ProcessID= $ppid : Average_Running_Time= $art" >> tmp
 done
-cat tmp | sort -nk5 > ans_4.lst
+cat tmp > ans_4.lst
 rm tmp

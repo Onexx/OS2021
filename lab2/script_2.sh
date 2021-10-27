@@ -1,2 +1,3 @@
 #!/bin/bash
-ps -A -o pid,cmd | grep /sbin/ | awk '{ print $1 }' > ans_2.lst
+
+ps -e -o pid,cmd | awk '$2 ~ "^/sbin/" { print $0 }' > ans_2.lst
