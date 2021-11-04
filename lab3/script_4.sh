@@ -1,11 +1,14 @@
 #!/bin/bash
 
 > pids
-at now -f ./process.sh &
-at now -f ./process.sh &
-at now -f ./process.sh &
+./process.sh &
+pid1=$!
+./process.sh &
+./process.sh &
+pid3=$!
+echo "pid1 = $pid1"
+echo "pid2 = $pid3"
+cpulimit -l 10 -p $pid1 &
+kill $pid3
 
-cpulimit -l 10 -p $(cat pids | head -n 1) &
-kill $(cat pids | tail -n 1)
 
-echo "$(cat pids | tail -n 1)"
