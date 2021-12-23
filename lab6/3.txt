@@ -1,0 +1,24 @@
+1)
+net start > services.txt
+
+2)
+echo|set /p="net stop dnscache & timeout 1 & net start > C:\services2.txt & fc /A C:\services2.txt C:\services.txt > C:\diff.txt & net start dnscache" > phonereset.cmd
+В файле dnsreset.cmd:
+net stop dnscache
+timeout 1
+net start > C:\services2.txt
+fc /A C:\services2.txt C:\services.txt > C:\diff.txt
+net start dnscache
+
+
+2) Альтернатива
+net start phonesvc
+echo|set /p="net stop phonesvc & timeout 1 & net start > C:\services2.txt & fc /A C:\services2.txt C:\services.txt > C:\diff.txt & net start phonesvc" > phonereset.cmd
+
+net stop phonesvc
+timeout 1
+net start > C:\services2.txt
+fc /A C:\services2.txt C:\services.txt > C:\diff.txt
+net start phonesvc
+
+
